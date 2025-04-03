@@ -5,6 +5,8 @@ import RestaurantCard from "./RestaurantCard";
 import GalleryRestaurant from "./GalleryRestaurant";
 import KartComponent from "./KartComponent";
 import axios from "axios";
+import GalleryCommande from "./GalleryCommande";
+
 const MobileSubMenu = () => {
     const [activeTab, setActiveTab] = useState("restaurant");
 
@@ -34,7 +36,10 @@ const MobileSubMenu = () => {
                 )}
 
                 {activeTab === "historique" && (
-                    <h2 className="text-2xl font-poppins font-bold ">Vos Commandes </h2>
+                    <div className="flex flex-col justify-center items-center gap-8">
+                        <h2 className="text-2xl font-poppins font-bold ">Vos Commandes </h2>
+                        <GalleryCommande />
+                    </div>
                 )}
                 {activeTab === "panier" && (
                     <div>

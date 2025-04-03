@@ -35,7 +35,7 @@ const LoginPage = () => {
 
                 if (response.status === 200) {
                     console.log("Token valide, redirection...");
-                    navigate("/profile"); // Rediriger vers le profil
+                    navigate("/dashboard"); // Rediriger vers le profil
                 }
             } else {
                 setError("Erreur : Aucun token trouvé.");
