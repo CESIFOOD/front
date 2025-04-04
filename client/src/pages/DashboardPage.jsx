@@ -11,7 +11,7 @@ const DashboardPage = () => {
     const isAuthenticateCheck = () => {
         const token = localStorage.getItem("token");
         if (!token) {
-            toast.warn("Vous devez être connecté pour accéder à cette page.");
+            toast.warning("Vous devez être connecté pour accéder à cette page.");
             navigate("/login"); 
         }
     }

@@ -24,6 +24,8 @@ function App() {
       <div className='bg-[#fbf8f1]'>
         <Header />
       </div>
+      <ToastContainer />
+      
       <div className='bg-[#fbf8f1] min-h-screen'>
         <Routes>
           <Route index element={<HomePage />}></Route>
@@ -36,7 +38,6 @@ function App() {
           <Route path='/profil' element={<ProfilePage />}></Route>
           <Route path='/paiement' element={<PaiementPage />}></Route>
         </Routes>
-        <ToastContainer />
       </div>
     </>
   )
