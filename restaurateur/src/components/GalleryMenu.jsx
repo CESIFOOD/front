@@ -6,14 +6,15 @@ import MenuCard from "./MenuCard";
 
 
 
-const GalleryMenu = () => {
+const GalleryMenu = ({ restaurantId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [menus, setMenus] = useState([]);
 
     const getMenus = async () => {
         try {
             const menuResponse = await axios.get(`http://localhost:8080/menus`);
-            setMenus(menuResponse.data);
+            const filteredMenus = menuResponse.data.filter(menu => menu.restaurant === restaurantId);
+            setMenus(filteredMenus);
         } catch (error) {
             toast.error("Erreur lors du chargement des menus");
         } finally {
@@ -22,9 +23,12 @@ const GalleryMenu = () => {
     };
 
     useEffect(() => {
-        setIsLoading(true); // Activer le chargement au début
-        getMenus();
-    }, []);
+        if (restaurantId) {
+            setIsLoading(true); // Activer le chargement au début
+            getMenus();
+        }
+
+    }, [restaurantId]);
 
     return (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-[#fbf8f1]">
