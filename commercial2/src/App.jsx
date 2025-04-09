@@ -12,7 +12,7 @@ import LoginPage from './pages/Account/LoginPage'
 import NewAccountPage from './pages/Account/NewAccountPage'
 import ProfilePage from './pages/Account/ProfilPage'
 import { ToastContainer } from 'react-toastify'
-import CreateComponentPage from './pages/CreateComponentPage'
+
 
 
 function App() {
@@ -32,7 +32,6 @@ function App() {
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/register' element={<NewAccountPage />}></Route>
           <Route path='/profil' element={<ProfilePage />}></Route>
-          <Route path='/newComponent' element={<CreateComponentPage />}></Route>
         </Routes>
       </div>
     </>

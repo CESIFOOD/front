@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import GalleryComponents from "./GalleryComponents";
+import UsersTable from "./UsersTable";
+import StatistiqueComponents from "./StatistiqueComponents";
+// import UserManagement from "./UserManagement";
 
 const MobileSubMenu = () => {
-    const [activeTab, setActiveTab] = useState("composants");
+    const [activeTab, setActiveTab] = useState("Utilisateurs");
 
     return (
         <div className="w-full  mx-auto pt-10">
             {/* Menu */}
             <div className="flex bg-gray-800 font-semibold text-white rounded-lg p-2 gap-2">
-                {["composants", "api"].map((tab) => (
+                {["Utilisateurs", "Statistiques"].map((tab) => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
@@ -22,19 +24,19 @@ const MobileSubMenu = () => {
 
             {/* Contenu Dynamique */}
             <div className="py-12">
-                {activeTab === "composants" && (
+                {activeTab === "Utilisateurs" && (
                     <div className="flex flex-col justify-center items-center gap-8">
-                        <h2 className="text-2xl font-poppins font-bold ">Les composants téléchargeable</h2>
-                        <GalleryComponents/>   
-                    
+                        <h2 className="text-2xl font-poppins font-bold ">User</h2>
+                        {/* <UserManagement/> */}
+                        <UsersTable/>
+                        
+                        
                     </div>
-
                 )}
-                {activeTab === "api" && (
+                {activeTab === "Statistiques" && (
                     <div className="flex flex-col justify-center items-center gap-8">
-                        <h2 className="text-2xl font-poppins font-bold ">API </h2>
-                        
-                        
+                        <h2 className="text-2xl font-poppins font-bold ">Tableau de bord</h2>
+                        <StatistiqueComponents/>
                     </div>
                 )}
             </div>

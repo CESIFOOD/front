@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilPage'
 import PaiementPage from './pages/PaiementPage'
 import { ToastContainer } from 'react-toastify'
+import UsersTable from './pages/UsersTable'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -37,6 +38,7 @@ function App() {
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/profil' element={<ProfilePage />}></Route>
           <Route path='/paiement' element={<PaiementPage />}></Route>
+          <Route path='/users' element={<UsersTable />}></Route>
         </Routes>
       </div>
     </>
