@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Poppins;
+    src: url("./assets/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: Inter;
+    src: url("./assets/fonts/Inter_18pt-Regular.ttf");
+}
+
+
+@import "tailwindcss";
+
+@theme {
+    --font-poppins : Poppins, 'sans-serif';
+    --font-inter : Inter, 'sans-serif'
+}

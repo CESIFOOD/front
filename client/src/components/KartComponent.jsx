@@ -1,6 +1,7 @@
 
 "use client";
 import { useCart } from "../../src/context/CartContext";
+import { Link } from "react-router-dom"
 
 const KartComponent = () => {
     const { cart, updateQuantity, removeFromCart, getTotal } = useCart();
@@ -48,11 +49,13 @@ const KartComponent = () => {
                         ))}
 
                     </ul>
-                    <div className="mt-6">
-                        <h3 className="text-lg font-bold">Total du panier: {getTotal()} €</h3>
-                        <button className="bg-green-500 text-white px-4 py-2 mt-2">
-                            Valider ma commande
-                        </button>
+                    <div className="mt-6 mb-4">
+                        <h3 className="text-lg font-bold">Total du panier : {getTotal()} €</h3>
+                    </div>
+                    <div className="flex justify-center">
+                        <Link to='/paiement' className="group bg-[#e4011c] justify-center items-center hover:bg-[#b10015] font-poppins rounded-lg shadow-xl text-white px-4 py-2 mt-2 transform duration-200 transition-all">
+                            <span className="transform transition-all duration-300 group-hover:translate-y-[-3px]">Valider ma commande</span>
+                        </Link>
                     </div>
                 </div>
             )}

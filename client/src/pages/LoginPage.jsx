@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LoginPage = () => {
     const { login, accessToken } = useAuth();
@@ -10,7 +11,7 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-   
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");  // Réinitialiser l'erreur à chaque tentative
@@ -32,17 +33,31 @@ const LoginPage = () => {
                         Authorization: `Bearer ${token}`,  // ENVOYER LE TOKEN DANS LE HEADER
                     },
                 });
+                console.log("Response de l'API authenticate :", response.data);
+                if (response.data.msg === "Suspended") {
+                    toast.error('Votre compte a été suspendu. Veuillez contacter un administrateur.')
+                    return
+                }
 
                 if (response.status === 200) {
                     console.log("Token valide, redirection...");
-                    navigate("/profile"); // Rediriger vers le profil
+                    navigate("/dashboard"); // Rediriger vers le profil
                 }
+
             } else {
                 setError("Erreur : Aucun token trouvé.");
             }
         } catch (error) {
-            console.log("Erreur lors de l'authentification :", error);
-            setError("Nom d'utilisateur ou mot de passe incorrect.");
+            const message = error.message;
+            if (message === "User is suspended.") {
+                toast.error("Votre compte est suspendu. Veuillez contacter un administrateur.");
+            } else {
+                toast.error("Nom d'utilisateur ou mot de passe incorrect.");
+            }
+
+            setError(message);
+
+
         }
     };
 
@@ -68,6 +83,7 @@ const LoginPage = () => {
                 {error && <p>{error}</p>}
                 <button className='bg-[#e4011c] text-white font-inter font-semibold hover:bg-[#b10015] py-2 px-4 rounded-xl' type="submit">Se connecter</button>
             </form>
+            <ToastContainer />
         </div>
     );
 };

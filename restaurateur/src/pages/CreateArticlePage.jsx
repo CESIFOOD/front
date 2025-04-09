@@ -1,5 +1,5 @@
 import axios from "axios";
-import { use, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
@@ -9,9 +9,17 @@ const CreateArticlePage = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [image, setImage] = useState("");
-    const [idRestaurant, setIdRestaurant] = useState("");
+    const [idRestaurant, setIdRestaurant] = useState(""); // Initialisé à vide
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Récupère l'ID du restaurant depuis le localStorage
+        const restaurantId = localStorage.getItem("restaurantId");
+        if (restaurantId) {
+            setIdRestaurant(restaurantId); // On met à jour l'état idRestaurant avec l'ID du restaurant
+        }
+    }, []);
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
@@ -29,25 +37,17 @@ const CreateArticlePage = () => {
                 name: name,
                 type: selectedOption,
                 price: price, 
-                restaurant : idRestaurant,
-                image : image
+                restaurant: idRestaurant, // Utilise l'ID récupéré dans l'état
+                image: image
             })
-            toast.success(`L'article ${response.name} a été sauvegardé avec succès !`)
+            toast.success(`L'article a été sauvegardé avec succès !`)
             setIsLoading(false)
-            // navigate('/dashboard')
+            navigate('/dashboard') // Rediriger vers le dashboard après l'ajout de l'article
         } catch (error) {
-            toast.error(error)
+            toast.error(error.message || 'Une erreur s\'est produite');
             setIsLoading(false)
         }
     }
-
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     console.log("Option sélectionnée :", selectedOption);
-    //     // Ici, tu peux envoyer `selectedOption` à ton backend
-    // };
-
 
     return (
         <div className="bg-[#fbf8f1] border border-[#fbf8f1]">
@@ -56,7 +56,7 @@ const CreateArticlePage = () => {
                 <form action="">
                     <div className="space-y-4">
                         <div>
-                            <label htmlFor="">Name <span className="text-[#e4011c]">*</span></label>
+                            <label htmlFor="">Nom <span className="text-[#e4011c]">*</span></label>
                             <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full block border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Entrez le nom" />
                         </div>
                         <div>
@@ -81,10 +81,6 @@ const CreateArticlePage = () => {
                             <label >Image</label>
                             <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-full block border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Entrez le lien de l'image" />
                         </div>
-                        <div>
-                            <label >ID du Restaurant</label>
-                            <input type="text" value={idRestaurant} onChange={(e) => setIdRestaurant(e.target.value)} className="w-full block border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400" placeholder="Entrez l'ID" />
-                        </div>
                     </div>
                     {
                         !isLoading && (
@@ -102,4 +98,4 @@ const CreateArticlePage = () => {
     )
 }
 
-export default CreateArticlePage
+export default CreateArticlePage;

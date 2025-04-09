@@ -12,22 +12,38 @@ const CreateMenuPage = () => {
         price: "",
         image: "",
         articles: [], // Liste des articles sélectionnés
-        restaurant: '',
+        restaurant: '', // ID restaurant récupéré du localStorage
     });
 
     // 🔄 Charger les articles depuis l'API
     const getArticles = async () => {
         try {
             const response = await axios.get("http://localhost:8080/articles");
-            setArticles(response.data);
+            // Filtrer les articles en fonction du restaurant
+            const filteredArticles = response.data.filter(article => article.restaurant === menu.restaurant);
+            setArticles(filteredArticles);
         } catch (error) {
             toast.error("Erreur lors du chargement des articles");
         }
     };
 
     useEffect(() => {
-        getArticles();
-    }, []);
+        // Récupérer l'ID du restaurant depuis le localStorage
+        const restaurantId = localStorage.getItem("restaurantId");
+        if (restaurantId) {
+            setMenu((prevMenu) => ({
+                ...prevMenu,
+                restaurant: restaurantId, // Mettre l'ID dans l'état menu
+            }));
+        } else {
+            toast.error("Aucun restaurant trouvé. Veuillez vous connecter.");
+            navigate("/login"); // Rediriger vers la page de login si l'ID du restaurant est absent
+        }
+
+        if (menu.restaurant) {
+            getArticles(); // Charger les articles filtrés uniquement si un restaurant est défini
+        }
+    }, [menu.restaurant]); // Recharger les articles si l'ID du restaurant change
 
     // Ajouter un nouvel article au menu
     const addArticleSelection = () => {
@@ -37,7 +53,7 @@ const CreateMenuPage = () => {
         }));
     };
 
-    //  Modifier un article sélectionné
+    // Modifier un article sélectionné
     const handleArticleChange = (index, value) => {
         const updatedArticles = [...menu.articles];
         updatedArticles[index] = value;
@@ -78,19 +94,15 @@ const CreateMenuPage = () => {
                 articles: validArticles, // On envoie directement les IDs
             };
 
-            console.log(`${menuData}`)
-            console.log(`${validArticles}`)
             await axios.post("http://localhost:8080/menus", menuData);
             toast.success("Le menu a été créé avec succès !");
-            // navigate("/dashboard");
+            navigate("/dashboard"); // Rediriger vers le dashboard après succès
         } catch (error) {
             toast.error("Erreur lors de la création du menu");
         } finally {
             setIsLoading(false);
         }
     };
-    
-
 
     return (
         <div className="bg-[#fbf8f1] border border-[#fbf8f1] min-h-screen">
@@ -136,18 +148,6 @@ const CreateMenuPage = () => {
                             />
                         </div>
 
-
-                        {/* Champ restaurant */}
-                        <div>
-                            <label>ID Restaurant</label>
-                            <input
-                                type="text"
-                                value={menu.restaurant}
-                                onChange={(e) => setMenu({ ...menu, restaurant: e.target.value })}
-                                className="w-full block border p-3 text-gray-600 rounded focus:outline-none focus:shadow-outline"
-                                placeholder="Entrez l'ID"
-                            />
-                        </div>
 
                         {/* Sélection des articles */}
                         <div>
